@@ -12,6 +12,8 @@ def main(dataset=None):
         # Ir al directorio raíz del proyecto (subir dos niveles desde este archivo)
         BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
         ruta = os.path.join(BASE_DIR, "data", "Demografia", "PoblacionResFechaSexoEdad.xlsx")
+        
+        st.write(ruta)
 
         try:
             df = pd.read_excel(ruta)
