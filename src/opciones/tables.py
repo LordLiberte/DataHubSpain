@@ -7,7 +7,7 @@ def main(dataset=None):
     st.title("Datos")
 
     if dataset == "demografia":
-        st.subheader("Datos de Población por Fecha, Sexo y Edad")
+        st.subheader("Datos de Población por Sexo desde 1970 hasta 2024")
 
         # Ruta absoluta basada en la estructura real del proyecto
         BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
