@@ -3,16 +3,15 @@ import pandas as pd
 from funciones import data_frames
 import os
 
+ruta_base = "/mount/src/datahubspain/src/data/"
+
 
 def main(dataset=None):
     st.title("Datos")
 
     if dataset == "demografia":
         st.subheader("Datos de Población por Fecha, Sexo y Edad")
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        ruta = os.path.join(BASE_DIR, "..", "data", "Demografia", "PoblacionResFechaSexoEdad.xlsx")
-        
-        st.write(ruta)
+        ruta = f"{ruta_base}Demografia/PoblacionResFechaSexoEdad.xlsx"
 
         try:
             df = pd.read_excel(ruta)
