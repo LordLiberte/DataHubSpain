@@ -9,7 +9,6 @@ def main(dataset=None):
 
     if dataset == "demografia":
         st.subheader("Datos de Población por Fecha, Sexo y Edad")
-        os.path("../..")
         ruta = f"data/Demografia/PoblacionResFechaSexoEdad.xlsx"
 
         try:
