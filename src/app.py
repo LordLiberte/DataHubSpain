@@ -1,5 +1,5 @@
 import streamlit as st
-from opciones import acercade, datavis, tables, actualizaciones
+from opciones import acercade, tables, actualizaciones
 from funciones import data_frames
     
 def sideBar():
