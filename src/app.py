@@ -35,13 +35,13 @@ def main():
     params = st.query_params
     page = params.get("page", "actualizaciones")
 
-    if page == "acercade":
-        acercade.IniciarOpcion()
+    if page == "actualizaciones":
+        actualizaciones.main()
     elif page == "datos":
         dataset = params.get("dataset", None)
         tables.main(dataset=dataset)
     else:
-        actualizaciones.main()
+        acercade.IniciarOpcion()
 
     
 
