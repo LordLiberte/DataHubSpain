@@ -33,7 +33,7 @@ def main():
 
     sideBar()
     params = st.query_params
-    page = params.get("page", "actualizaciones")
+    page = params.get("page", "acercade")
 
     if page == "actualizaciones":
         actualizaciones.main()
