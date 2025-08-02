@@ -11,6 +11,8 @@ def main(dataset=None):
         st.subheader("Datos de Población por Fecha, Sexo y Edad")
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         ruta = os.path.join(BASE_DIR, "..", "data", "Demografia", "PoblacionResFechaSexoEdad.xlsx")
+        
+        st.write(ruta)
 
         try:
             df = pd.read_excel(ruta)
