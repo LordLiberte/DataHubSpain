@@ -14,7 +14,7 @@ def main(dataset=None):
         ruta = os.path.join(BASE_DIR, "data", "Demografia", "PoblacionResFechaSexoEdad.xlsx")
 
         try:
-            df = pd.read_excel(ruta)
+            df = pd.read_excel(ruta, engine="openpyxl")
             df = data_frames.limpiezaData(df)
             st.dataframe(df)
             st.markdown("*Fuente*: Instituto Nacional de Estadistica, INE")
