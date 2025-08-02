@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from funciones import data_frames
+import os
 
 
 def main(dataset=None):
@@ -8,8 +9,8 @@ def main(dataset=None):
 
     if dataset == "demografia":
         st.subheader("Datos de Población por Fecha, Sexo y Edad")
-
-        ruta = "../data/Demografia/PoblacionResFechaSexoEdad.xlsx"
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        ruta = os.path.join(BASE_DIR, "..", "data", "Demografia", "PoblacionResFechaSexoEdad.xlsx")
 
         try:
             df = pd.read_excel(ruta)
