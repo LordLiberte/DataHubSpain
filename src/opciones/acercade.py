@@ -57,7 +57,7 @@ def IniciarOpcion():
     with tabVis:
 
         # Mostrar gráfico
-        st.bar_chart(data=dataTest(), x='Producto', y='Ingresos')
+        st.bar_chart(data=dataTest(), x='Categoría', y='Ingresos')
         
     
     
