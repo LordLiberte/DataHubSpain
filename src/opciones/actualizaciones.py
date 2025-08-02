@@ -8,7 +8,7 @@ def main():
 
     with col1.expander("Demografía"):
         st.markdown("""
-        Se han añadido datos sobre la altura de las personas en España por sexo, edad y número de personas por rango de altura. Los datos presentes 
+        Se han añadido datos sobre la altura de las personas en España por sexo. Los datos presentes 
         son del Instituto Nacional de Estadística.
 
         - Fuente oficial:
