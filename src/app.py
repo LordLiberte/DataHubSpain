@@ -1,3 +1,8 @@
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
 import streamlit as st
 from opciones import acercade, tables, actualizaciones
 from funciones import data_frames
