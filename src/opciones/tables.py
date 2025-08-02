@@ -9,7 +9,9 @@ def main(dataset=None):
 
     if dataset == "demografia":
         st.subheader("Datos de Población por Fecha, Sexo y Edad")
-        ruta = f"data/Demografia/PoblacionResFechaSexoEdad.xlsx"
+        # Ir al directorio raíz del proyecto (subir dos niveles desde este archivo)
+        BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+        ruta = os.path.join(BASE_DIR, "data", "Demografia", "PoblacionResFechaSexoEdad.xlsx")
 
         try:
             df = pd.read_excel(ruta)
