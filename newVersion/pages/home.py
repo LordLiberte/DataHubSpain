@@ -34,22 +34,6 @@ def render():
 
     st.markdown("---")
 
-    # --- Navegación rápida ---
-    st.markdown("## 🔍 Explora por secciones")
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        if st.button("📈 Economía", use_container_width=True):
-            st.query_params(page="economy")
-    with col2:
-        if st.button("🧑‍🤝‍🧑 Población", use_container_width=True):
-            st.query_params(page="population")
-    with col3:
-        if st.button("🚉 Transporte", use_container_width=True):
-            st.query_params(page="transport")
-
-    st.markdown("---")
-
     # --- Transparencia y metodología ---
     with st.expander("📖 ¿Cómo trabajamos?"):
         st.markdown("""
