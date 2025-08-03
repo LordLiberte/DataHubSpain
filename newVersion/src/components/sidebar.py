@@ -3,11 +3,13 @@ import streamlit as st
 def create_sidebar():
     st.sidebar.title("🧭 Navegación")
 
-    section = st.sidebar.radio("Ir a:", [
-        "🏠 Inicio",
-        "📈 Economía",
-        "👥 Población",
-        "🚆 Transporte"
-    ])
+    if st.sidebar.button("🏠 Inicio"):
+        st.session_state["page"] = "home"
+    
+    if st.sidebar.button("📈 Economía"):
+        st.session_state["page"] = "economy"
+        
+    if "page" not in st.session_state:
+        st.session_state["page"] = "home"
 
-    return section
+    return st.session_state["page"]

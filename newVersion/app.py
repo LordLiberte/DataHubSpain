@@ -29,8 +29,18 @@ def main():
     configpage()
     
     # Barra lateral
-    section = create_sidebar()
+    pagina = create_sidebar()
+    # Selección de sidebar
+    if pagina == "home":
+        st.title("📊 Open Spain Insights")
+        st.subheader("Transparencia, acceso y análisis de datos públicos de España")
+        st.markdown("Bienvenido a la página de inicio. Aquí empezarás tu viaje.")
+        
+    elif pagina == "economy":
+        st.title("📈 Economía")
+        st.write("Aquí irán los datos económicos.")
     
+    """
     # Cabecera
     st.title("📊 Open Spain Insights")
     st.subheader("Transparencia, acceso y análisis de datos públicos de España")
@@ -38,8 +48,8 @@ def main():
     st.markdown(INTRO_TEXT)
 
     # Footer
-    st.markdown("---")
-    st.caption("Hecho con ❤️ en Python y Streamlit | Proyecto en desarrollo")
+    show_footer()
+    """
     
 
 if __name__ == "__main__":
