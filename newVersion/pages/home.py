@@ -87,10 +87,11 @@ def render():
             Los datos iniciales se basarán en fuentes oficiales y fiables, como el Instituto Nacional de Estadística (INE), ministerios (Igualdad, Interior, Transportes), Seguridad Social y repositorios públicos de datos abiertos de la Administración General del Estado.
 
             Las temáticas principales abordadas serán:
-            """
-            for key, label, _ in ROUTES:
-                st.markdown(f"*{label}")
-        )
+            """)
+        
+        for key, label, _ in ROUTES:
+            st.markdown(f"*{label}")
+        
 
     # --- Colaboración ---
     with st.expander("🤝 ¿Quieres colaborar?"):
