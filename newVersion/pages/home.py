@@ -102,9 +102,7 @@ def render():
             """
         )
 
-    st.markdown("---")
-
-    # --- Sección ¿Cómo trabajamos? (Manteniendo el expander original) ---
+    # --- ¿Cómo trabajamos?  ---
     with st.expander("📖 ¿Cómo trabajamos?"):
         st.markdown("""
         - Cada dataset tiene su fuente y notas metodológicas.
@@ -112,5 +110,5 @@ def render():
         - Puedes ver el código y sugerir mejoras en [GitHub](https://github.com/LordLiberte/DataHubSpain).
         """)
 
-    # Llama a tu función de pie de página, si existe
+    # Llama a tu función de pie de página
     show_footer()
