@@ -4,7 +4,7 @@ from src.config.constants import INTRO_TEXT
 def configpage():
     st.set_page_config(
         page_title="Open Spain Insights",
-        page_icon="🇪🇸",
+        page_icon="../icons/base-de-datos.png",
         layout="wide",
         initial_sidebar_state="expanded"
     )
