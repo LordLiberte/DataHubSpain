@@ -8,7 +8,7 @@ def create_sidebar():
         st.session_state["page"] = "home"
 
     for key, label, _ in ROUTES:
-        if st.sidebar.button(label):
+        if st.sidebar.button(label, use_container_width=True):
             st.session_state["page"] = key
     
     
