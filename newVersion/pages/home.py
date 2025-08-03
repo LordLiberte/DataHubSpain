@@ -32,14 +32,12 @@ def render():
         """
     )
 
-    st.markdown("---")
-
     # --- Transparencia y metodología ---
     with st.expander("📖 ¿Cómo trabajamos?"):
         st.markdown("""
         - Cada dataset tiene su fuente y notas metodológicas.
         - Nunca alteramos los datos originales.
-        - Puedes ver el código y sugerir mejoras en [GitHub](https://github.com/tu-repo).
+        - Puedes ver el código y sugerir mejoras en [GitHub](https://github.com/LordLiberte/DataHubSpain).
         """)
 
     show_footer()
