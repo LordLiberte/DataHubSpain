@@ -2,7 +2,6 @@
 # Librerias
 import streamlit as st
 import pandas as pd
-from opciones import datavis as dv
 # ===========================================================================================
 
 

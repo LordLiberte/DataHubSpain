@@ -1,5 +1,10 @@
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
 import streamlit as st
-from opciones import acercade, datavis, tables, actualizaciones
+from opciones import acercade, tables, actualizaciones
 from funciones import data_frames
     
 def sideBar():
@@ -33,7 +38,7 @@ def main():
 
     sideBar()
     params = st.query_params
-    page = params.get("page", "actualizaciones")
+    page = params.get("page", "acercade")
 
     if page == "actualizaciones":
         actualizaciones.main()
