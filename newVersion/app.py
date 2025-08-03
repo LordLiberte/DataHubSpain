@@ -1,11 +1,14 @@
 # Librerias y módulos
 import streamlit as st
 from PIL import Image
+import os
 from src.components.sidebar import create_sidebar
 from src.config.routing import ROUTES
 
 # Configuración de la página
-icon = Image.open("icons/base-de-datos.ico")
+script_dir = os.path.dirname(os.path.abspath(__file__))
+icon_path = os.path.join(script_dir, "icons", "base-de-datos.ico")
+icon = Image.open(icon_path)
 st.set_page_config(
     page_title="Open Spain Insights",
     page_icon=icon,
