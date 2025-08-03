@@ -17,9 +17,6 @@ def main():
             module.render()
             break  # Ya encontramos la página, salimos del bucle
     
-    st.sidebar.markdown("### Debug session_state")
-    st.sidebar.write(st.session_state)
-    
 
     
 # ==============================================================
