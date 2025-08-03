@@ -1,11 +1,11 @@
 import streamlit as st
-from config.routing import ROUTES
+from src.config.routing import ROUTES
 
 # Barra lateral
 def create_sidebar():
 
     for key, label, _ in ROUTES:
         if st.sidebar.button(label):
-            st.session_state["page"] = key
+            st.session_state["current_page"] = key
 
     return st.session_state["page"]
