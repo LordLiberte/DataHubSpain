@@ -1,6 +1,8 @@
 # Librerias
 import streamlit as st
 from src.config.constants import INTRO_TEXT
+from src.components.sidebar import create_sidebar
+
 
 
 # Funciones para el funcionamiento del programa
@@ -25,6 +27,9 @@ def main():
     
     # Configuración general de la app
     configpage()
+    
+    # Barra lateral
+    section = create_sidebar()
     
     # Cabecera
     st.title("📊 Open Spain Insights")
