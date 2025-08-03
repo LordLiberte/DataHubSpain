@@ -85,9 +85,11 @@ def render():
         st.markdown(
             """
             Este proyecto nace con vocación comunitaria, así que hay varias formas de sumar:
-            ***Apoyar económicamente:** Si quieres ayudar al mantenimiento y desarrollo del proyecto, puedes hacer una aportación puntual a través de PayPal (próximamente disponible).
-            ***Aportar ideas y sugerencias:** ¿Has visto un dataset interesante o se te ocurre una nueva funcionalidad? ¡Queremos escucharte!.
-            ***Unirte al proyecto:** Si te apasiona la transparencia y la inteligencia pública, puedes formar parte del equipo.
+            **Apoyar económicamente:** Si quieres ayudar al mantenimiento y desarrollo del proyecto, puedes hacer una aportación puntual a través de PayPal (próximamente disponible).
+            
+            **Aportar ideas y sugerencias:** ¿Has visto un dataset interesante o se te ocurre una nueva funcionalidad? ¡Queremos escucharte!.
+            
+            **Unirte al proyecto:** Si te apasiona la transparencia y la inteligencia pública, puedes formar parte del equipo.
             """
         )
 
