@@ -2,6 +2,11 @@
 import streamlit as st
 import base64
 import os
+import sys
+
+# Añadir el directorio raíz al path de Python
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from src.components.sidebar import create_sidebar
 from src.config.routing import ROUTES
 
