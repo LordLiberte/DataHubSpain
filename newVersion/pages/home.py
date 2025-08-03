@@ -40,13 +40,13 @@ def render():
 
     with col1:
         if st.button("📈 Economía", use_container_width=True):
-            st.experimental_set_query_params(page="economy")
+            st.query_params(page="economy")
     with col2:
         if st.button("🧑‍🤝‍🧑 Población", use_container_width=True):
-            st.experimental_set_query_params(page="population")
+            st.query_params(page="population")
     with col3:
         if st.button("🚉 Transporte", use_container_width=True):
-            st.experimental_set_query_params(page="transport")
+            st.query_params(page="transport")
 
     st.markdown("---")
 
