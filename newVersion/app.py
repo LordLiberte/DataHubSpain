@@ -4,6 +4,13 @@ from src.components.sidebar import create_sidebar
 from src.config.routing import ROUTES
 from pages import economy, home
 
+# Configuración de la página
+st.set_page_config(
+    page_title="Open Spain Insights",
+    page_icon="icons/base-de-datos.ico",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
 # Función principal para el render de la web
 def main():
