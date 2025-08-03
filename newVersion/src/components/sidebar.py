@@ -6,6 +6,6 @@ def create_sidebar():
 
     for key, label, _ in ROUTES:
         if st.sidebar.button(label):
-            st.session_state["current_page"] = key
+            st.session_state["page"] = key
 
     return st.session_state["page"]
