@@ -27,7 +27,7 @@ def main():
     configpage()
     
     # Cabecera
-    st.title("📊 Open Spain Insights")
+    st.title("📊 Open Spain Insihts")
     st.subheader("Transparencia, acceso y análisis de datos públicos de España")
 
     st.markdown(INTRO_TEXT)
