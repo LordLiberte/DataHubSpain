@@ -1,14 +1,11 @@
 import streamlit as st
+from config.routing import ROUTES
 
+# Barra lateral
 def create_sidebar():
 
-    if st.sidebar.button("🏠 Inicio", use_container_width=True):
-        st.session_state["page"] = "home"
-    
-    if st.sidebar.button("📈 Economía", use_container_width=True):
-        st.session_state["page"] = "economy"
-        
-    if "page" not in st.session_state:
-        st.session_state["page"] = "home"
+    for key, label, _ in ROUTES:
+        if st.sidebar.button(label):
+            st.session_state["current_page"] = key
 
     return st.session_state["page"]

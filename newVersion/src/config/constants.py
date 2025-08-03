@@ -1,3 +1,5 @@
+from pages import home, economy
+
 INTRO_TEXT = ("""
 Bienvenido a **Open Spain Insights**, tu plataforma para explorar y visualizar datos abiertos de España de manera clara, ética y accesible.
 
