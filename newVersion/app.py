@@ -1,27 +1,41 @@
 # Librerias
 import streamlit as st
+from src.config.constants import INTRO_TEXT
 
-# Configuración general de la app
-st.set_page_config(
-    page_title="Open Spain Insights",
-    page_icon="🇪🇸",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
 
-# Cabecera
-st.title("📊 Open Spain Insights")
-st.subheader("Transparencia, acceso y análisis de datos públicos de España")
+# Funciones para el funcionamiento del programa
+def configpage():
+    # Configuración general de la app
+    st.set_page_config(
+        page_title="Open Spain Insights",
+        page_icon="🇪🇸",
+        layout="wide",
+        initial_sidebar_state="expanded"
+    )
+    
+def show_footer():
+    # Footer
+    st.markdown("---")
+    st.caption("Hecho con ❤️ en Python y Streamlit | Proyecto en desarrollo")
 
-st.markdown("""
-Bienvenido a **Open Spain Insights**, tu plataforma para explorar y visualizar datos abiertos de España de manera clara, ética y accesible.
 
-👉 Usa el menú lateral para acceder a las distintas secciones temáticas (economía, población, transporte, etc.)  
-👉 Cada dataset viene acompañado de sus notas metodológicas y fuente oficial.
 
-*Esto es solo el comienzo. Pronto podrás personalizar, cruzar y analizar los datos a tu medida.*  
-""")
+# Función principal para el render de la web
+def main():
+    
+    # Configuración general de la app
+    configpage()
+    
+    # Cabecera
+    st.title("📊 Open Spain Insights")
+    st.subheader("Transparencia, acceso y análisis de datos públicos de España")
 
-# Footer
-st.markdown("---")
-st.caption("Hecho con ❤️ en Python y Streamlit | Proyecto en desarrollo")
+    st.markdown(INTRO_TEXT)
+
+    # Footer
+    st.markdown("---")
+    st.caption("Hecho con ❤️ en Python y Streamlit | Proyecto en desarrollo")
+    
+
+if __name__ == "__main__":
+    main()
