@@ -2,7 +2,6 @@
 import streamlit as st
 from src.components.sidebar import create_sidebar
 from src.config.routing import ROUTES
-from pages import economy, home
 
 # Configuración de la página
 st.set_page_config(
