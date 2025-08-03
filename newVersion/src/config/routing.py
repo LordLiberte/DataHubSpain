@@ -1,7 +1,8 @@
-from pages import home, economy
+from pages import home, economy, transport
 
 
 ROUTES = [
     ("home", "🏠 Inicio", home),
-    ("economy", "📈 Economía", economy)
+    ("economy", "📈 Economía", economy),
+    ("transport", "🚌 Transporte", transport)
     ]
