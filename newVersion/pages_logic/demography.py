@@ -27,7 +27,6 @@ def render():
         key="demography_dataset_selector"
     )
 
-    # Cargar datos solo si se selecciona un nuevo dataset
     if selected_dataset and st.session_state.demography_selected_dataset != selected_dataset:
         dataset_path = os.path.join(category_path, selected_dataset)
         df, metadata = data_loader.load_dataset(dataset_path)
@@ -60,34 +59,36 @@ def render():
             key="demography_data_editor"
         )
 
-        # Primero, VERIFICAR si la columna de selección existe Y si algo está seleccionado
-        if "_selected" in edited_df.columns and edited_df["_selected"].any():
-            selected_df = edited_df[edited_df["_selected"] == True]
-            st.success(f"{len(selected_df)} fila(s) seleccionadas.")
+        st.info("2. Pulsa el botón para generar el gráfico con las filas seleccionadas.")
+        if st.button("📊 Generar Gráfico con Selección"):
+            # Comprobar si la columna de selección existe Y si algo está seleccionado
+            if "_selected" in edited_df.columns and edited_df["_selected"].any():
+                selected_df = edited_df[edited_df["_selected"] == True]
+                st.success(f"{len(selected_df)} fila(s) seleccionadas.")
 
-            st.markdown("### ⚙️ Configura tu gráfico")
-            st.info("2. Elige las columnas para los ejes X e Y.")
+                st.markdown("### ⚙️ Configura tu gráfico")
+                st.info("3. Elige las columnas para los ejes X e Y.")
 
-            categorical_options = selected_df.select_dtypes(include=['object', 'category']).columns.tolist()
-            numeric_options = selected_df.select_dtypes(include=['number']).columns.tolist()
+                categorical_options = selected_df.select_dtypes(include=['object', 'category']).columns.tolist()
+                numeric_options = selected_df.select_dtypes(include=['number']).columns.tolist()
 
-            if not categorical_options or not numeric_options:
-                st.warning("Para generar un gráfico, la selección debe contener al menos una columna de texto/categorías y una columna numérica.")
-                return
+                if not categorical_options or not numeric_options:
+                    st.warning("Para generar un gráfico, la selección debe contener al menos una columna de texto/categorías y una columna numérica.")
+                    return
 
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                x_axis = st.selectbox("Eje X (Categorías)", categorical_options, key="x_axis_selector")
-            with col2:
-                y_axis = st.selectbox("Eje Y (Valores)", numeric_options, key="y_axis_selector")
-            with col3:
-                color_axis = st.selectbox("Color (Opcional)", ["None"] + categorical_options, key="color_axis_selector")
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    x_axis = st.selectbox("Eje X (Categorías)", categorical_options, key="x_axis_selector")
+                with col2:
+                    y_axis = st.selectbox("Eje Y (Valores)", numeric_options, key="y_axis_selector")
+                with col3:
+                    color_axis = st.selectbox("Color (Opcional)", ["None"] + categorical_options, key="color_axis_selector")
 
-            if x_axis and y_axis:
-                chart = data_plotter.generate_dynamic_chart(selected_df, x_axis, y_axis, color_axis)
-                if chart:
-                    st.altair_chart(chart, use_container_width=True)
-                else:
-                    st.error("No se pudo generar el gráfico con las columnas seleccionadas.")
-        else:
-            st.info("Selecciona al menos una fila para habilitar las opciones de gráfico.")
+                if x_axis and y_axis:
+                    chart = data_plotter.generate_dynamic_chart(selected_df, x_axis, y_axis, color_axis)
+                    if chart:
+                        st.altair_chart(chart, use_container_width=True)
+                    else:
+                        st.error("No se pudo generar el gráfico con las columnas seleccionadas.")
+            else:
+                st.warning("No has seleccionado ninguna fila. Por favor, selecciona al menos una fila en la tabla de arriba.")
