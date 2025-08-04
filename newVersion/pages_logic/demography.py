@@ -121,8 +121,7 @@ def render():
                 x_axis = st.selectbox(
                     "Eje X", 
                     all_columns, 
-                    key="demography_x_axis_selector",
-                    index=0
+                    key="demography_x_axis_selector"
                 )
             
             with col2:
@@ -131,9 +130,8 @@ def render():
                 y_axis = st.selectbox(
                     "Eje Y", 
                     y_options, 
-                    key="demography_y_axis_selector",
-                    index=0 if y_options else None
-                )
+                    key="demography_y_axis_selector"
+                ) if y_options else None
             
             with col3:
                 color_options = ["None"] + categorical_options
