@@ -65,12 +65,18 @@ def render():
         st.info("1. Marca las filas que quieres seleccionar para el gráfico.")
 
         # Mostrar el editor con columna de selección
-        edited_df = st.data_editor(
+        st.data_editor(
             df,
             use_container_width=True,
             num_rows="dynamic",
+            column_config={
+                "_selected": st.column_config.CheckboxColumn("Seleccionar")
+            },
             key="demography_data_editor"
         )
+
+        edited_df = st.session_state.demography_df
+
 
         st.info("2. Pulsa el botón para generar el gráfico con las filas seleccionadas.")
 
