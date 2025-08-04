@@ -75,59 +75,106 @@ def render():
             disabled=df.columns.tolist()  # Deshabilitar edición de columnas de datos originales
         )
 
-        st.info("2. Pulsa el botón para generar el gráfico con las filas seleccionadas.")
-        if st.button("📊 Generar Gráfico con Selección"):
-            # CORRECCIÓN 3: Usar directamente el dataframe editado devuelto por st.data_editor
-            current_edited_df = edited_df
+        # CORRECCIÓN: Mantener el estado de configuración del gráfico
+        # Inicializar variables de estado para la configuración del gráfico
+        if 'demography_show_config' not in st.session_state:
+            st.session_state.demography_show_config = False
+        if 'demography_selected_df' not in st.session_state:
+            st.session_state.demography_selected_df = None
+
+        st.info("2. Pulsa el botón para configurar el gráfico con las filas seleccionadas.")
+        
+        # Verificar si hay filas seleccionadas
+        current_edited_df = edited_df
+        has_selection = "_selected" in current_edited_df.columns and current_edited_df["_selected"].any()
+        
+        if st.button("📊 Configurar Gráfico con Selección") and has_selection:
+            # Filtrar y guardar las filas seleccionadas en el estado
+            selected_df = current_edited_df[current_edited_df["_selected"] == True].copy()
+            selected_df = selected_df.drop(columns=["_selected"])
+            st.session_state.demography_selected_df = selected_df
+            st.session_state.demography_show_config = True
+            st.rerun()
+
+        # Mostrar la configuración del gráfico si está activada
+        if st.session_state.demography_show_config and st.session_state.demography_selected_df is not None:
+            selected_df = st.session_state.demography_selected_df
+            st.success(f"{len(selected_df)} fila(s) seleccionadas para el gráfico.")
+
+            st.markdown("### ⚙️ Configura tu gráfico")
+            st.info("3. Elige las columnas para los ejes X e Y, luego genera el gráfico.")
+
+            # CORRECCIÓN 5: Mejorar la detección de tipos de columnas
+            categorical_options = selected_df.select_dtypes(include=['object', 'category', 'string']).columns.tolist()
+            numeric_options = selected_df.select_dtypes(include=['number', 'int64', 'float64']).columns.tolist()
+            all_columns = selected_df.columns.tolist()
+
+            if len(all_columns) < 2:
+                st.warning("Para generar un gráfico, la selección debe contener al menos dos columnas.")
+                st.session_state.demography_show_config = False
+                return
+
+            # Configuración de ejes que persiste entre re-runs
+            col1, col2, col3, col4 = st.columns([2, 2, 2, 1])
             
-            if "_selected" in current_edited_df.columns and current_edited_df["_selected"].any():
-                # CORRECCIÓN 4: Filtrar correctamente las filas seleccionadas
-                selected_df = current_edited_df[current_edited_df["_selected"] == True].copy()
-                # Remover la columna de selección del dataframe para el gráfico
-                selected_df = selected_df.drop(columns=["_selected"])
-                
-                st.success(f"{len(selected_df)} fila(s) seleccionadas.")
+            with col1:
+                x_axis = st.selectbox(
+                    "Eje X", 
+                    all_columns, 
+                    key="demography_x_axis_selector",
+                    index=0
+                )
+            
+            with col2:
+                # Filtrar opciones para Y excluyendo la selección de X
+                y_options = [col for col in all_columns if col != x_axis]
+                y_axis = st.selectbox(
+                    "Eje Y", 
+                    y_options, 
+                    key="demography_y_axis_selector",
+                    index=0 if y_options else None
+                )
+            
+            with col3:
+                color_options = ["None"] + categorical_options
+                color_axis = st.selectbox(
+                    "Color (Opcional)", 
+                    color_options, 
+                    key="demography_color_axis_selector"
+                )
+            
+            with col4:
+                st.markdown("<br>", unsafe_allow_html=True)  # Espaciado
+                if st.button("🎨 Generar", type="primary"):
+                    if x_axis and y_axis and x_axis != y_axis:
+                        # CORRECCIÓN 7: Manejar el caso cuando color_axis es "None"
+                        color_col = None if color_axis == "None" else color_axis
+                        
+                        try:
+                            chart = data_plotter.generate_dynamic_chart(selected_df, x_axis, y_axis, color_col)
+                            if chart:
+                                st.altair_chart(chart, use_container_width=True)
+                            else:
+                                st.error("No se pudo generar el gráfico con las columnas seleccionadas.")
+                        except Exception as e:
+                            st.error(f"Error al generar el gráfico: {str(e)}")
+                            st.info("Verifica que las columnas seleccionadas sean compatibles para la visualización.")
+                    else:
+                        st.warning("Selecciona ejes X e Y diferentes para generar el gráfico.")
 
-                st.markdown("### ⚙️ Configura tu gráfico")
-                st.info("3. Elige las columnas para los ejes X e Y.")
+            # Botón para cerrar la configuración
+            if st.button("❌ Cerrar Configuración"):
+                st.session_state.demography_show_config = False
+                st.session_state.demography_selected_df = None
+                st.rerun()
 
-                # CORRECCIÓN 5: Mejorar la detección de tipos de columnas
-                categorical_options = selected_df.select_dtypes(include=['object', 'category', 'string']).columns.tolist()
-                numeric_options = selected_df.select_dtypes(include=['number', 'int64', 'float64']).columns.tolist()
-
-                # CORRECCIÓN 6: Permitir columnas numéricas también en el eje X
-                all_columns = selected_df.columns.tolist()
-
-                if len(all_columns) < 2:
-                    st.warning("Para generar un gráfico, la selección debe contener al menos dos columnas.")
-                    return
-
-                col1, col2, col3 = st.columns(3)
-                with col1:
-                    x_axis = st.selectbox("Eje X", all_columns, key="x_axis_selector")
-                with col2:
-                    y_axis = st.selectbox("Eje Y (Preferiblemente numérico)", all_columns, key="y_axis_selector")
-                with col3:
-                    color_options = ["None"] + categorical_options
-                    color_axis = st.selectbox("Color (Opcional)", color_options, key="color_axis_selector")
-
-                if x_axis and y_axis and x_axis != y_axis:
-                    # CORRECCIÓN 7: Manejar el caso cuando color_axis es "None"
-                    color_col = None if color_axis == "None" else color_axis
-                    
-                    try:
-                        chart = data_plotter.generate_dynamic_chart(selected_df, x_axis, y_axis, color_col)
-                        if chart:
-                            st.altair_chart(chart, use_container_width=True)
-                        else:
-                            st.error("No se pudo generar el gráfico con las columnas seleccionadas.")
-                    except Exception as e:
-                        st.error(f"Error al generar el gráfico: {str(e)}")
-                        st.info("Verifica que las columnas seleccionadas sean compatibles para la visualización.")
-                elif x_axis == y_axis:
-                    st.warning("Los ejes X e Y deben ser diferentes.")
-            else:
-                st.warning("No has seleccionado ninguna fila. Por favor, selecciona al menos una fila marcando las casillas en la columna 'Seleccionar'.")
+        elif st.session_state.demography_show_config and not has_selection:
+            st.warning("La selección de filas ha cambiado. Por favor, selecciona filas nuevamente.")
+            st.session_state.demography_show_config = False
+            st.session_state.demography_selected_df = None
+        
+        elif not has_selection and st.button("📊 Configurar Gráfico con Selección"):
+            st.warning("No has seleccionado ninguna fila. Por favor, selecciona al menos una fila marcando las casillas en la columna 'Seleccionar'.")
         
         # CORRECCIÓN 8: Mostrar información adicional sobre el dataset
         st.markdown("### 📊 Información del Dataset")
