@@ -60,9 +60,10 @@ def render():
             df,
             use_container_width=True,
             num_rows="dynamic",
-            key="demography_selector"
+            key="demography_data_editor"
         )
 
+        # Comprobar si hay una selección válida en el dataframe editado
         if "_selected" in edited_df.columns and edited_df["_selected"].any():
             selected_df = edited_df[edited_df["_selected"] == True]
             st.success(f"{len(selected_df)} fila(s) seleccionadas.")
