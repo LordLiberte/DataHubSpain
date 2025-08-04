@@ -88,7 +88,7 @@ def render():
         current_edited_df = edited_df
         has_selection = "_selected" in current_edited_df.columns and current_edited_df["_selected"].any()
         
-        if st.button("📊 Configurar Gráfico con Selección") and has_selection:
+        if st.button("📊 Configurar Gráfico con Selección", key="config_chart_button") and has_selection:
             # Filtrar y guardar las filas seleccionadas en el estado
             selected_df = current_edited_df[current_edited_df["_selected"] == True].copy()
             selected_df = selected_df.drop(columns=["_selected"])
@@ -145,7 +145,7 @@ def render():
             
             with col4:
                 st.markdown("<br>", unsafe_allow_html=True)  # Espaciado
-                if st.button("🎨 Generar", type="primary"):
+                if st.button("🎨 Generar", type="primary", key="generate_chart_button"):
                     if x_axis and y_axis and x_axis != y_axis:
                         # CORRECCIÓN 7: Manejar el caso cuando color_axis es "None"
                         color_col = None if color_axis == "None" else color_axis
@@ -163,7 +163,7 @@ def render():
                         st.warning("Selecciona ejes X e Y diferentes para generar el gráfico.")
 
             # Botón para cerrar la configuración
-            if st.button("❌ Cerrar Configuración"):
+            if st.button("❌ Cerrar Configuración", key="close_config_button"):
                 st.session_state.demography_show_config = False
                 st.session_state.demography_selected_df = None
                 st.rerun()
@@ -173,7 +173,9 @@ def render():
             st.session_state.demography_show_config = False
             st.session_state.demography_selected_df = None
         
-        elif not has_selection and st.button("📊 Configurar Gráfico con Selección"):
+        elif not has_selection:
+            if st.button("📊 Configurar Gráfico con Selección", key="config_chart_button_disabled", disabled=True):
+                pass
             st.warning("No has seleccionado ninguna fila. Por favor, selecciona al menos una fila marcando las casillas en la columna 'Seleccionar'.")
         
         # CORRECCIÓN 8: Mostrar información adicional sobre el dataset
