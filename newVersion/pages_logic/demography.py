@@ -31,7 +31,8 @@ def render():
     
     if st.button("Limpiar Datos"):
         with st.selectbox("None"):
-            data_cleaning.delete_none(df)
+            if df != None:
+                data_cleaning.delete_none(df)
             
 
     st.dataframe(df)
