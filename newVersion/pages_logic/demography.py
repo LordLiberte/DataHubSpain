@@ -29,14 +29,11 @@ def render():
         if metadata:
             st.markdown(metadata)
     
-    st.selectbox("None")
-    
     if st.button("Limpiar Datos"):
-        with st.selectbox("None"):
-            if df is not None:
-                data_cleaning.delete_none(df)
-            else:
-                st.warning("No hay datos para limpiar")
+        if df is not None:
+            df = data_cleaning.delete_none(df)
+        else:
+            st.warning("No hay datos para limpiar")
             
     if df is not None:
         st.dataframe(df)
