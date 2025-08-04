@@ -33,7 +33,7 @@ def render():
         if df is not None:
             df = data_cleaning.delete_none(df)
         else:
-            st.warning("No hay datos para limpiar")
+            st.write("No hay datos para limpiar")
             
     if df is not None:
         st.dataframe(df)
