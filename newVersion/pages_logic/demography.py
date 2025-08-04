@@ -35,8 +35,9 @@ def render():
         st.session_state.demography_metadata = metadata
         st.session_state.demography_selected_dataset = selected_dataset
         # Limpiar la selección de filas al cambiar de dataset
-        if "demography_selector" in st.session_state:
-            st.session_state.demography_selector["selection"]["rows"] = []
+        if "demography_data_editor" in st.session_state:
+            # No se puede modificar directamente, pero el rerun lo refrescará
+            pass
         st.rerun()
 
     df = st.session_state.demography_df
@@ -63,9 +64,10 @@ def render():
             key="demography_data_editor"
         )
 
-        # Comprobar si hay una selección válida en el dataframe editado
-        if "_selected" in edited_df.columns and edited_df["_selected"].any():
-            selected_df = edited_df[edited_df["_selected"] == True]
+        # La selección se maneja a través del dataframe devuelto por data_editor
+        selected_df = edited_df[edited_df["_selected"] == True]
+
+        if not selected_df.empty:
             st.success(f"{len(selected_df)} fila(s) seleccionadas.")
 
             st.markdown("### ⚙️ Configura tu gráfico")
