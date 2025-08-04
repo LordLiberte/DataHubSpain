@@ -33,7 +33,7 @@ def render():
         with st.selectbox("None"):
             if df != None:
                 data_cleaning.delete_none(df)
-            elif:
+            else:
                 st.warning("No hay datos para limpiar")
             
 
