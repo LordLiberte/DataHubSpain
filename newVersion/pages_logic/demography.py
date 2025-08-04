@@ -34,8 +34,9 @@ def render():
         st.session_state.demography_df = df
         st.session_state.demography_metadata = metadata
         st.session_state.demography_selected_dataset = selected_dataset
-        # Limpiar la selección de filas y columnas al cambiar de dataset
-        st.session_state.demography_selector = {"selection": {"rows": []}}
+        # Limpiar la selección de filas al cambiar de dataset
+        if "demography_selector" in st.session_state:
+            st.session_state.demography_selector["selection"]["rows"] = []
         st.rerun()
 
     df = st.session_state.demography_df
@@ -53,7 +54,7 @@ def render():
 
     if df is not None:
         st.markdown("### 👀 Vista interactiva del dataset")
-        st.info("Selecciona filas en la tabla de abajo para generar una gráfica.")
+        st.info("1. Selecciona las filas que quieres visualizar en la tabla de abajo.")
         
         st.dataframe(
             df,
@@ -62,33 +63,34 @@ def render():
             key="demography_selector"
         )
 
-        # DEBUG: Mostrar el contenido de session_state
-        st.write(st.session_state)
-
-        selected_rows_indices = st.session_state.demography_selector["selection"]["rows"]
-
-        if selected_rows_indices:
+        # Comprobar si hay una selección válida en el estado de la sesión
+        if "demography_selector" in st.session_state and st.session_state.demography_selector["selection"]["rows"]:
+            selected_rows_indices = st.session_state.demography_selector["selection"]["rows"]
             selected_df = df.iloc[selected_rows_indices]
-            st.success(f"{len(selected_df)} fila(s) seleccionadas")
+            st.success(f"{len(selected_df)} fila(s) seleccionadas.")
 
             st.markdown("### ⚙️ Configura tu gráfico")
-            
+            st.info("2. Elige las columnas para los ejes X e Y.")
+
             # Opciones para los ejes
-            column_options = selected_df.columns.tolist()
             categorical_options = selected_df.select_dtypes(include=['object', 'category']).columns.tolist()
             numeric_options = selected_df.select_dtypes(include=['number']).columns.tolist()
 
+            if not categorical_options or not numeric_options:
+                st.warning("Para generar un gráfico, la selección debe contener al menos una columna de texto/categorías y una columna numérica.")
+                return
+
             col1, col2, col3 = st.columns(3)
             with col1:
-                x_axis = st.selectbox("Eje X (Categorías)", categorical_options)
+                x_axis = st.selectbox("Eje X (Categorías)", categorical_options, key="x_axis_selector")
             with col2:
-                y_axis = st.selectbox("Eje Y (Valores)", numeric_options)
+                y_axis = st.selectbox("Eje Y (Valores)", numeric_options, key="y_axis_selector")
             with col3:
-                color_axis = st.selectbox("Color (Opcional)", ["None"] + categorical_options)
+                color_axis = st.selectbox("Color (Opcional)", ["None"] + categorical_options, key="color_axis_selector")
 
             if x_axis and y_axis:
                 chart = data_plotter.generate_dynamic_chart(selected_df, x_axis, y_axis, color_axis)
                 if chart:
                     st.altair_chart(chart, use_container_width=True)
                 else:
-                    st.warning("No se pudo generar el gráfico con las columnas seleccionadas.")
+                    st.error("No se pudo generar el gráfico con las columnas seleccionadas.")
