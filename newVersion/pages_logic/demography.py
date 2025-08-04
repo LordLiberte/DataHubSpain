@@ -1,6 +1,8 @@
 import streamlit as st
 from src.core import data_browser, data_loader
 import os
+from src.core import data_cleaning
+
 
 
 # Funciones para el funcionamiento de la página
@@ -25,4 +27,13 @@ def render():
         
         if metadata:
             st.markdown(metadata)
-        st.dataframe(df)
+        
+    
+    if st.button("Limpiar Datos"):
+        with st.selectbox("None"):
+            data_cleaning.delete_none(df)
+            
+
+    st.dataframe(df)
+            
+   
