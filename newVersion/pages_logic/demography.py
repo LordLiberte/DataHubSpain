@@ -11,6 +11,7 @@ from src.core import data_cleaning
 def render():
     st.title("👨‍👩‍👧‍👦 Demografía")
     
+    df = None;
     category_path = "data/demografia"
     datasets = data_browser.listar_subcarpetas(category_path)
     
