@@ -5,7 +5,7 @@ import os
 import sys
 
 # Añadir el directorio raíz al path de Python
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from src.components.sidebar import create_sidebar
 from src.config.routing import ROUTES
