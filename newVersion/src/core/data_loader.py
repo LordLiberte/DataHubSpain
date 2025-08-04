@@ -19,12 +19,14 @@ def load_dataset(folder_path):
             md_file = f
 
     df = None
-    if data_file:
-        file_path = os.path.join(absolute_folder_path, data_file)
+    # Definir valores que deben ser tratados como NaN y el separador de miles
+        na_vals = [' ', '']
+        
         if data_file.endswith(".csv"):
-            df = pd.read_csv(file_path)
+            # El separador de miles puede variar, '.' es común en formatos españoles
+            df = pd.read_csv(file_path, na_values=na_vals, thousands='.')
         elif data_file.endswith(".xlsx"):
-            df = pd.read_excel(file_path)
+            df = pd.read_excel(file_path, na_values=na_vals, thousands='.')
 
     metadata = None
     if md_file:
