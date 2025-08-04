@@ -4,7 +4,11 @@ import os
 def listar_subcarpetas(category_page):
     
     try:
-        folder = [f for f in os.listdir(category_page) if os.path.isdir(os.path.join(category_page, f))]
+        # Construir la ruta absoluta
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        data_dir = os.path.abspath(os.path.join(base_dir, "..", "..", category_page))
+        
+        folder = [f for f in os.listdir(data_dir) if os.path.isdir(os.path.join(data_dir, f))]
         return folder
     except:
         return []
