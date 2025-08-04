@@ -62,6 +62,9 @@ def render():
             key="demography_selector"
         )
 
+        # DEBUG: Mostrar el contenido de session_state
+        st.write(st.session_state)
+
         selected_rows_indices = st.session_state.demography_selector["selection"]["rows"]
 
         if selected_rows_indices:
