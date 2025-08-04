@@ -29,8 +29,14 @@ from pages.home import render as home_render
 # Función principal para el render de la web
 def main():
     
-    # Render de la página principal
-    home_render()
+    # Barra lateral
+    pagina = create_sidebar()
+    
+    # Selección de sidebar
+    for key, _, module in ROUTES:
+        if key == pagina:
+            module.render()
+            break  # Ya encontramos la página, salimos del bucle
     
 # ==============================================================
 if __name__ == "__main__":
