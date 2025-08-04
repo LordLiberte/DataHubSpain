@@ -24,8 +24,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-from pages.home import render as home_render
-
 # Función principal para el render de la web
 def main():
     

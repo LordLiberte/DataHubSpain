@@ -1,4 +1,4 @@
-from pages import home, economy, transport
+from pages_logic import home, economy, transport
 
 
 ROUTES = [
