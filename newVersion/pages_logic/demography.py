@@ -29,7 +29,7 @@ def render():
 
     if selected_dataset and st.session_state.demography_selected_dataset != selected_dataset:
         dataset_path = os.path.join(category_path, selected_dataset)
-        df, metadata = data_loader.load_dataset(dataset_path)
+        df, metadata = data_loader.load_dataset(dataset(dataset_path))
         st.session_state.demography_df = df
         st.session_state.demography_metadata = metadata
         st.session_state.demography_selected_dataset = selected_dataset
@@ -53,20 +53,22 @@ def render():
         st.info("1. Selecciona las filas que quieres visualizar en la tabla de abajo.")
 
         # st.data_editor returns the (potentially edited) dataframe
-        edited_df = st.data_editor(
+        # The key stores the *current* state of the editor in session_state
+        st.data_editor(
             df,
             use_container_width=True,
             num_rows="dynamic",
-            key="demography_data_editor" # This key stores the *initial* df, not the edited one
+            key="demography_data_editor"
         )
 
         st.info("2. Pulsa el botón para generar el gráfico con las filas seleccionadas.")
         if st.button("📊 Generar Gráfico con Selección"):
-            # We use the 'edited_df' returned by st.data_editor directly
-            # This 'edited_df' will contain the '_selected' column if rows were checked
+            # IMPORTANT: Access the *current* state of the data_editor from session_state
+            # This is the dataframe that reflects the user's selections
+            current_edited_df = st.session_state["demography_data_editor"]
             
-            if "_selected" in edited_df.columns and edited_df["_selected"].any():
-                selected_df = edited_df[edited_df["_selected"] == True]
+            if "_selected" in current_edited_df.columns and current_edited_df["_selected"].any():
+                selected_df = current_edited_df[current_edited_df["_selected"] == True]
                 st.success(f"{len(selected_df)} fila(s) seleccionadas.")
 
                 st.markdown("### ⚙️ Configura tu gráfico")
