@@ -32,28 +32,33 @@ def render():
 
     if df is not None:
         st.markdown("### 👀 Vista interactiva del dataset")
-        edited_df = st.data_editor(
+        st.info("Selecciona filas en la tabla de abajo para generar una gráfica.")
+        
+        # Usar st.dataframe con on_select para capturar las selecciones de filas
+        st.dataframe(
             df,
-            use_container_width=True,
-            num_rows="dynamic",
-            key="demography_data_editor"
+            on_select="rerun",
+            selection_mode="multi-row",
+            key="demography_selector"
         )
 
-        # Mostrar gráfico si se han seleccionado menos filas que el total (selección manual)
-        if not edited_df.empty and len(edited_df) < len(df):
-            st.success(f"{len(edited_df)} fila(s) seleccionadas")
+        # Recuperar la selección del estado de la sesión
+        if "demography_selector" in st.session_state:
+            selected_rows_indices = st.session_state["demography_selector"]["selection"]["rows"]
 
-            # Intentar graficar columnas si existen
-            columnas = df.columns
+            if selected_rows_indices:
+                # Crear un dataframe solo con las filas seleccionadas
+                selected_df = df.iloc[selected_rows_indices]
+                st.success(f"{len(selected_df)} fila(s) seleccionadas")
 
-            if "Edad" in columnas and "Total" in columnas and "Sexo" in columnas:
-                st.markdown("### 📊 Gráfico generado automáticamente")
-                chart = altair_chart_from_selection(edited_df)
-                st.altair_chart(chart, use_container_width=True)
-            else:
-                st.warning("No se encontraron columnas adecuadas para graficar (se esperan 'Edad', 'Total', 'Sexo').")
-        else:
-            st.info("Selecciona filas para ver una gráfica generada.")
+                # Comprobar las columnas necesarias y generar el gráfico
+                columnas = selected_df.columns
+                if "Edad" in columnas and "Total" in columnas and "Sexo" in columnas:
+                    st.markdown("### 📊 Gráfico generado automáticamente")
+                    chart = altair_chart_from_selection(selected_df)
+                    st.altair_chart(chart, use_container_width=True)
+                else:
+                    st.warning("Las filas seleccionadas no tienen las columnas adecuadas para graficar (se esperan 'Edad', 'Total', 'Sexo').")
 
 def altair_chart_from_selection(df):
     import altair as alt
