@@ -12,7 +12,6 @@ def render():
     
     category_path = "data/demografia"
     datasets = data_browser.listar_subcarpetas(category_path)
-    st.write(datasets)
     
     selected_dataset = st.selectbox("Selecciona un dataset", datasets)
     

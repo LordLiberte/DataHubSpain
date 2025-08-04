@@ -4,22 +4,31 @@ import os
 # Carga el dataset de la subcarpeta escogida
 def load_dataset(folder_path):
     
-    csv_file = None
+    # Construir la ruta absoluta
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    absolute_folder_path = os.path.abspath(os.path.join(base_dir, "..", "..", folder_path))
+
+    data_file = None
     md_file = None
     
-    for f in os.listdir(folder_path):
-        if f.endswith(".csv"):
-            csv_file = f
+    # Find data file (csv or xlsx) and metadata file
+    for f in os.listdir(absolute_folder_path):
+        if f.endswith((".csv", ".xlsx")):
+            data_file = f
         elif f.endswith(".md"):
             md_file = f
 
     df = None
-    if csv_file:
-        df = pd.read_csv(os.path.join(folder_path, csv_file))
+    if data_file:
+        file_path = os.path.join(absolute_folder_path, data_file)
+        if data_file.endswith(".csv"):
+            df = pd.read_csv(file_path)
+        elif data_file.endswith(".xlsx"):
+            df = pd.read_excel(file_path)
 
     metadata = None
     if md_file:
-        with open(os.path.join(folder_path, md_file), "r", encoding="utf-8") as f:
+        with open(os.path.join(absolute_folder_path, md_file), "r", encoding="utf-8") as f:
             metadata = f.read()
     
     return df, metadata
