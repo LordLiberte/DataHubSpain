@@ -3,9 +3,9 @@ from src.core import data_browser, data_loader
 import os
 from src.core import data_cleaning
 
-
-
 # Funciones para el funcionamiento de la página
+
+
 
 # Función principal 
 def render():
@@ -36,7 +36,7 @@ def render():
             else:
                 st.warning("No hay datos para limpiar")
             
-
-    st.dataframe(df)
+    if df is not None:
+        st.dataframe(df)
             
    
