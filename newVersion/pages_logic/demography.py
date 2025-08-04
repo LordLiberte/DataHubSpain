@@ -65,6 +65,9 @@ def render():
             # Accedemos al estado del editor directamente desde st.session_state
             edited_df_from_state = st.session_state["demography_data_editor"]
 
+            st.write(f"DEBUG: Type of edited_df_from_state: {type(edited_df_from_state)}")
+            st.write(f"DEBUG: Value of edited_df_from_state: {edited_df_from_state}")
+
             if "_selected" in edited_df_from_state.columns and edited_df_from_state["_selected"].any():
                 selected_df = edited_df_from_state[edited_df_from_state["_selected"] == True]
                 st.success(f"{len(selected_df)} fila(s) seleccionadas.")
