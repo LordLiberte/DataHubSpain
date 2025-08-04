@@ -59,6 +59,16 @@ def render():
             key="demography_data_editor"
         )
 
+        st.write("--- DEBUG INFO ---")
+        st.write("Dataframe devuelto por `st.data_editor`:")
+        st.dataframe(edited_df)
+        if "_selected" in edited_df.columns:
+            st.write("La columna `_selected` existe. Valores:")
+            st.write(edited_df["_selected"].value_counts())
+        else:
+            st.write("La columna `_selected` NO existe en el dataframe.")
+        st.write("--- FIN DEBUG INFO ---")
+
         st.info("2. Pulsa el botón para generar el gráfico con las filas seleccionadas.")
         if st.button("📊 Generar Gráfico con Selección"):
             # Comprobar si la columna de selección existe Y si algo está seleccionado
