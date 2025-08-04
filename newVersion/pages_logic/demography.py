@@ -1,4 +1,10 @@
 import streamlit as st
+import sys
+import os
+
+# Añadir el directorio raíz al path para resolver la importación de 'src'
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from src.core import data_browser, data_loader, data_cleaning
 import os
 import altair as alt
