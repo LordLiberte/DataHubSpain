@@ -19,7 +19,9 @@ def load_dataset(folder_path):
             md_file = f
 
     df = None
-    # Definir valores que deben ser tratados como NaN y el separador de miles
+    if data_file:
+        file_path = os.path.join(absolute_folder_path, data_file)
+        # Definir valores que deben ser tratados como NaN y el separador de miles
         na_vals = [' ', '']
         
         if data_file.endswith(".csv"):

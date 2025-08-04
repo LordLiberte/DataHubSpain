@@ -6,4 +6,4 @@ ROUTES = [
     ("economy", "📈 Economía", economy),
     ("transport", "🚌 Transporte", transport),
     ("demography", "👨‍👩‍👧‍👦 Demografía", demography)
-    ]
+]
