@@ -32,7 +32,7 @@ def render():
     
     if st.button("Limpiar Datos"):
         with st.selectbox("None"):
-            if df != None:
+            if df is not None:
                 data_cleaning.delete_none(df)
             else:
                 st.warning("No hay datos para limpiar")
