@@ -55,24 +55,21 @@ def render():
     if df is not None:
         st.markdown("### 👀 Vista interactiva del dataset")
         st.info("1. Selecciona las filas que quieres visualizar en la tabla de abajo.")
-        
-        st.dataframe(
+
+        edited_df = st.data_editor(
             df,
-            on_select="rerun",
-            selection_mode="multi-row",
+            use_container_width=True,
+            num_rows="dynamic",
             key="demography_selector"
         )
 
-        # Comprobar si hay una selección válida en el estado de la sesión
-        if "demography_selector" in st.session_state and st.session_state.demography_selector["selection"]["rows"]:
-            selected_rows_indices = st.session_state.demography_selector["selection"]["rows"]
-            selected_df = df.iloc[selected_rows_indices]
+        if "_selected" in edited_df.columns and edited_df["_selected"].any():
+            selected_df = edited_df[edited_df["_selected"] == True]
             st.success(f"{len(selected_df)} fila(s) seleccionadas.")
 
             st.markdown("### ⚙️ Configura tu gráfico")
             st.info("2. Elige las columnas para los ejes X e Y.")
 
-            # Opciones para los ejes
             categorical_options = selected_df.select_dtypes(include=['object', 'category']).columns.tolist()
             numeric_options = selected_df.select_dtypes(include=['number']).columns.tolist()
 
@@ -94,3 +91,5 @@ def render():
                     st.altair_chart(chart, use_container_width=True)
                 else:
                     st.error("No se pudo generar el gráfico con las columnas seleccionadas.")
+        else:
+            st.info("Selecciona al menos una fila para habilitar las opciones de gráfico.")
