@@ -62,39 +62,22 @@ def render():
 
         st.info("2. Pulsa el botón para generar el gráfico con las filas seleccionadas.")
         if st.button("📊 Generar Gráfico con Selección"):
-            # Accedemos al estado del editor directamente desde st.session_state
-            edited_df_from_state = st.session_state["demography_data_editor"]
+            editor_data = st.session_state.get("demography_data_editor", {})
+            st.write(f"DEBUG: Type of editor_data: {type(editor_data)}")
+            st.write(f"DEBUG: Value of editor_data: {editor_data}")
 
-            st.write(f"DEBUG: Type of edited_df_from_state: {type(edited_df_from_state)}")
-            st.write(f"DEBUG: Value of edited_df_from_state: {edited_df_from_state}")
-
-            if "_selected" in edited_df_from_state.columns and edited_df_from_state["_selected"].any():
-                selected_df = edited_df_from_state[edited_df_from_state["_selected"] == True]
-                st.success(f"{len(selected_df)} fila(s) seleccionadas.")
-
-                st.markdown("### ⚙️ Configura tu gráfico")
-                st.info("3. Elige las columnas para los ejes X e Y.")
-
-                categorical_options = selected_df.select_dtypes(include=['object', 'category']).columns.tolist()
-                numeric_options = selected_df.select_dtypes(include=['number']).columns.tolist()
-
-                if not categorical_options or not numeric_options:
-                    st.warning("Para generar un gráfico, la selección debe contener al menos una columna de texto/categorías y una columna numérica.")
-                    return
-
-                col1, col2, col3 = st.columns(3)
-                with col1:
-                    x_axis = st.selectbox("Eje X (Categorías)", categorical_options, key="x_axis_selector")
-                with col2:
-                    y_axis = st.selectbox("Eje Y (Valores)", numeric_options, key="y_axis_selector")
-                with col3:
-                    color_axis = st.selectbox("Color (Opcional)", ["None"] + categorical_options, key="color_axis_selector")
-
-                if x_axis and y_axis:
-                    chart = data_plotter.generate_dynamic_chart(selected_df, x_axis, y_axis, color_axis)
-                    if chart:
-                        st.altair_chart(chart, use_container_width=True)
-                    else:
-                        st.error("No se pudo generar el gráfico con las columnas seleccionadas.")
+            if isinstance(editor_data, pd.DataFrame):
+                df_selected = editor_data
+            elif isinstance(editor_data, dict) and "edited_rows" in editor_data:
+                # Aquí puedes reconstruir un DataFrame a partir de las ediciones si quieres.
+                df_selected = df.copy()
+                for idx, changes in editor_data["edited_rows"].items():
+                    for col, val in changes.items():
+                        df_selected.at[int(idx), col] = val
             else:
-                st.warning("No has seleccionado ninguna fila. Por favor, selecciona al menos una fila en la tabla de arriba.")
+                df_selected = df  # fallback
+
+            # Aquí iría la lógica de selección si has habilitado selección en la tabla
+            # Pero como no la has configurado, no existe `_selected`
+
+            st.warning("⚠️ La selección de filas no está activada. Debes configurar la tabla para permitirla.")
