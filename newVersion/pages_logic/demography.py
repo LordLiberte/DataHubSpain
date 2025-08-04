@@ -52,28 +52,21 @@ def render():
         st.markdown("### 👀 Vista interactiva del dataset")
         st.info("1. Selecciona las filas que quieres visualizar en la tabla de abajo.")
 
-        edited_df = st.data_editor(
+        # Mostramos el editor. Su estado se guarda en st.session_state.demography_data_editor
+        st.data_editor(
             df,
             use_container_width=True,
             num_rows="dynamic",
             key="demography_data_editor"
         )
 
-        st.write("--- DEBUG INFO ---")
-        st.write("Dataframe devuelto por `st.data_editor`:")
-        st.dataframe(edited_df)
-        if "_selected" in edited_df.columns:
-            st.write("La columna `_selected` existe. Valores:")
-            st.write(edited_df["_selected"].value_counts())
-        else:
-            st.write("La columna `_selected` NO existe en el dataframe.")
-        st.write("--- FIN DEBUG INFO ---")
-
         st.info("2. Pulsa el botón para generar el gráfico con las filas seleccionadas.")
         if st.button("📊 Generar Gráfico con Selección"):
-            # Comprobar si la columna de selección existe Y si algo está seleccionado
-            if "_selected" in edited_df.columns and edited_df["_selected"].any():
-                selected_df = edited_df[edited_df["_selected"] == True]
+            # Accedemos al estado del editor directamente desde st.session_state
+            edited_df_from_state = st.session_state["demography_data_editor"]
+
+            if "_selected" in edited_df_from_state.columns and edited_df_from_state["_selected"].any():
+                selected_df = edited_df_from_state[edited_df_from_state["_selected"] == True]
                 st.success(f"{len(selected_df)} fila(s) seleccionadas.")
 
                 st.markdown("### ⚙️ Configura tu gráfico")
