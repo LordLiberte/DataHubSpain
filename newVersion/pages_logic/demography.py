@@ -28,7 +28,8 @@ def render():
         
         if metadata:
             st.markdown(metadata)
-        
+    
+    st.selectbox("None")
     
     if st.button("Limpiar Datos"):
         with st.selectbox("None"):
