@@ -5,8 +5,7 @@ import os
 # Añadir el directorio raíz al path para resolver la importación de 'src'
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from src.core import data_browser, data_loader, data_cleaning
-# data_plotter is removed as charting functionality is being removed
+from src.core import data_browser, data_loader
 
 def render():
     st.title("👨‍👩‍👧‍👦 Demografía")
@@ -45,13 +44,6 @@ def render():
 
     if metadata:
         st.markdown(metadata)
-
-    if st.button("Limpiar Datos"):
-        if df is not None:
-            st.session_state.demography_df = data_cleaning.delete_none(df)
-            st.rerun()
-        else:
-            st.warning("No hay datos para limpiar")
 
     if df is not None:
         st.markdown("### 👀 Vista interactiva del dataset")
