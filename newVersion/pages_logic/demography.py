@@ -1,6 +1,7 @@
 import streamlit as st
 import sys
 import os
+import pandas as pd
 
 # Añadir el directorio raíz al path para resolver la importación de 'src'
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
